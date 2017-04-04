@@ -1,0 +1,336 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HCI CS 522 - Fitt's law experiment</title>
+    <link rel='stylesheet' href="./css/css/skeleton.css"/>
+    <link rel="stylesheet" href="./css/css/normalize.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+</head>
+<body>
+<div id="Header" class="nine columns customHeader">
+    <h5 class="headercontent titleSub">HCI CS 522</h5>
+    <h5 class="headercontent">FITTS' LAW EXPERIMENT</h5>
+    <h6 class="headercontent">
+        <ul id="headerList" style="list-style-type:disc">
+            <li>
+                <b>OBJECTIVE:</b><br>
+                <span>The following experiment is designed to study Fitts' law. The data obtained from the following experiment setup is further used to study specific</span>
+                <span>measures like the index of difficulty, movement time and the throughput. These will be the end result of what is observed from this experiment.</span>
+            </li>
+            <li>
+               Following are the experiment setup measures:<br>
+                <ol id="experimetsetuplist" style="list-style-type: decimal">
+                    <li>
+                        <b>Input modality:  </b> Mouse<br>
+                    </li>
+                    <li>
+                        <b>Number of target sizes: </b>2<br>
+                    </li>
+                    <li>
+                        <b>Number of distinct distances:  </b>3<br><br>
+                    </li>
+                </ol>
+            </li>
+
+        </ul>
+    </h6>
+    <h6 class="headercontent">
+        <b>
+            EXPERIMENT STEPS:
+        </b>
+        <ul id="Expsteps" style="list-style-type: disc">
+            <li>
+                Select one of the distances given. The distances are the amplitude between targets and are in pixels(px).
+            </li>
+            <li>
+                Select one of the widths given. The widths are the diameter of the circle and are in pixels(px).
+            </li>
+            <li>
+                When ready to record a set of values, click on Start Recording Data button.
+            </li>
+            <li>
+                If the experiment needs to be restarted, click on the Stop Recording Data button.
+            </li>
+            <li>
+                Once the intended experiment is done and if you wish to export the data for further analysis, click on the Export Data button.
+            </li>
+            <li>
+                <b>Note:</b> The export data button is not active during an experiment.
+            </li>
+            <li>
+                Data being recorded:
+                <ul id="DataRecordedList" style="list-style-type: disc">
+                    <li>
+                        Movement Time.
+                    </li>
+                    <li>
+                        Distance between targets.
+                    </li>
+                    <li>
+                        Width of targets.
+                    </li>
+                    <li>
+                        Throughput.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                The experiment is laid out according to the ISO 9241-9:2000 standard.
+            </li>
+        </ul>
+    </h6>
+</div>
+<div class="twelve columns settings">
+    <div id = 'experimentSettings' class="three columns settings" style="height: inherit">
+        <h5 class="headercontent titleSub">EXPERIMENT SETTING</h5>
+
+        <h6 style="margin-bottom: 1.5rem;margin-left: 1.5rem">DISTANCE</h6>
+        <input type="radio" name="distance" value="120" onclick="changeDist(120);" checked>120
+        <input type="radio" name="distance" value="210" onclick="changeDist(210);">210
+        <input type="radio" name="distance" value="300" onclick="changeDist(300);">300
+
+        <h6 style="margin-bottom: 1.5rem;margin-left: 1.5rem">WIDTH</h6>
+        <input type="radio" name="targetWidth" value="40" onclick="changeRadius(40);" checked>40
+        <input type="radio" name="targetWidth" value="100" onclick="changeRadius(100);">100
+
+    </div>
+
+    <div id="experimentArea" class="six columns settings" >
+        <svg id="120D" width="620" height="400" style="pointer-events: all; display: inline" >
+            <rect cx="0" cy="0" width="620" height="400" class="back"></rect>
+            <circle id="120D1" class="circlePattern" cx="370" cy="200" r="20" onclick="clickedCircle('120D1');"></circle>
+            <circle id="120D2" class="circlePattern" cx="355.9626665871387" cy="238.56725658119234" r="20" onclick="clickedCircle('120D2');"></circle>
+            <circle id="120D3" class="circlePattern" cx="320.41889066001585" cy="259.0884651807325" r="20" onclick="clickedCircle('120D3');"></circle>
+            <circle id="120D4" class="circlePattern" cx="280" cy="251.96152422706632" r="20" onclick="clickedCircle('120D4');"></circle>
+            <circle id="120D5" class="circlePattern" cx="253.6184427528455" cy="220.52120859954013" r="20" onclick="clickedCircle('120D5');"></circle>
+            <circle id="120D6" class="circlePattern" cx="253.6184427528455" cy="179.47879140045987" r="20" onclick="clickedCircle('120D6');"></circle>
+            <circle id="120D7" class="circlePattern" cx="280" cy="148.03847577293368" r="20" onclick="clickedCircle('120D7');"></circle>
+            <circle id="120D8" class="circlePattern" cx="320.4188906600158" cy="140.9115348192675" r="20" onclick="clickedCircle('120D8');"></circle>
+            <circle id="120D9" class="circlePattern" cx="355.96266658713864" cy="161.43274341880763" r="20" onclick="clickedCircle('120D9');"></circle>
+        </svg>
+
+        <svg id="210D" width="620" height="400" style="pointer-events: all; display: none">
+            <rect cx="0" cy="0" width="620" height="400" class="back"></rect>
+            <circle id="210D1" class="circlePattern" cx="415" cy="200" r="20" onclick="clickedCircle('210D1')"></circle>
+            <circle id="210D2" class="circlePattern" cx="390.4346665274927" cy="267.49269901708664" r="20" onclick="clickedCircle('210D2');"></circle>
+            <circle id="210D3" class="circlePattern" cx="328.2330586550277" cy="303.40481406628186" r="20" onclick="clickedCircle('210D3');"></circle>
+            <circle id="210D4" class="circlePattern" cx="257.5" cy="290.93266739736606" r="20" onclick="clickedCircle('210D4');"></circle>
+            <circle id="210D5" class="circlePattern" cx="211.33227481747963" cy="235.91211504919522" r="20" onclick="clickedCircle('210D5')"></circle>
+            <circle id="210D6" class="circlePattern" cx="211.33227481747963" cy="164.08788495080478" r="20" onclick="clickedCircle('210D6')"></circle>
+            <circle id="210D7" class="circlePattern" cx="257.49999999999994" cy="109.06733260263397" r="20" onclick="clickedCircle('210D7')"></circle>
+            <circle id="210D8" class="circlePattern" cx="328.23305865502766" cy="96.59518593371814" r="20" onclick="clickedCircle('210D8')"></circle>
+            <circle id="210D9" class="circlePattern" cx="390.43466652749265" cy="132.50730098291336" r="20" onclick="clickedCircle('210D9')"></circle>
+        </svg>
+
+        <svg id="300D" width="620" height="400" style="pointer-events: all; display: none">
+            <rect cx="0" cy="0" width="620" height="400" class="back"></rect>
+            <circle id="300D1" class="circlePattern" cx="460" cy="200" r="20" onclick="clickedCircle('300D1')"></circle>
+            <circle id="300D2" class="circlePattern" cx="424.9066664678467" cy="296.4181414529809" r="20" onclick="clickedCircle('300D2')"></circle>
+            <circle id="300D3" class="circlePattern" cx="336.04722665003953" cy="347.72116295183116" r="20" onclick="clickedCircle('300D3')"></circle>
+            <circle id="300D4" class="circlePattern" cx="235.00000000000003" cy="329.9038105676658" r="20" onclick="clickedCircle('300D4')"></circle>
+            <circle id="300D5" class="circlePattern" cx="169.04610688211375" cy="251.30302149885034" r="20" onclick="clickedCircle('300D5')"></circle>
+            <circle id="300D6" class="circlePattern" cx="169.04610688211375" cy="148.69697850114972" r="20" onclick="clickedCircle('300D6')"></circle>
+            <circle id="300D7" class="circlePattern" cx="234.99999999999994" cy="70.09618943233426" r="20" onclick="clickedCircle('300D7')"></circle>
+            <circle id="300D8" class="circlePattern" cx="336.0472266500395" cy="52.27883704816878" r="20" onclick="clickedCircle('300D8')"></circle>
+            <circle id="300D9" class="circlePattern" cx="424.90666646784666" cy="103.58185854701907" r="20" onclick="clickedCircle('300D9')"></circle>
+        </svg>
+    </div>
+    <div class="two columns buttonSettings" style="margin-top: 2%">
+        <button id="StartButton" onclick="startProcess(value);" value="Start Recording" >Start Recording Data</button>
+        <br>
+        <br>
+        <button id="ExportData" onclick="exportData()">Export Recorded Data</button>
+    </div>
+</div>
+
+</body>
+</html>
+
+<script>
+    var currentCircle = 0;
+    var circleIds = [1,2,3,4,5,6,7,8,9];
+    var dist = 0;
+    var mt = [];
+    var currentTimeStamp;
+    var nextTimeStamp;
+    var extraFlag = 0;
+    var expData = [['A','W','ID','MT','IP']];
+function changeRadius(radius){
+    console.log(radius);
+    console.log(document.querySelector('input[name="distance"]:checked').value);
+    var dist = document.querySelector('input[name="distance"]:checked').value;
+    var otherDist = [120,210,300];
+    for (var j=0;j<otherDist.length;j++){
+        var element=document.getElementById(otherDist[j]+'D');
+        if ((dist + 'D') == (otherDist[j] + 'D')) {
+            element.style.display = 'inline';
+        } else {
+            element.style.display = 'none';
+        }
+        console.log('Done hiding');
+    }
+    for (var i=1;i<10;i++){
+        var element=document.getElementById((dist+'D'+i));
+        element.setAttribute('r',(radius/2));
+    }
+}
+
+
+function changeDist(dist){
+    console.log(dist);
+    /*
+     Hide everything except the selected distance.
+     */
+    var otherDist = [120,210,300];
+    for (var j=0;j<otherDist.length;j++){
+        var element=document.getElementById(otherDist[j]+'D');
+        if ((dist + 'D') == (otherDist[j] + 'D')) {
+            element.style.display = 'inline';
+        } else {
+            element.style.display = 'none';
+        }
+        console.log('Done hiding');
+    }
+
+    /*
+        Check for radius value and change accordingly.
+    */
+    var radius = document.querySelector('input[name="targetWidth"]:checked').value;
+    console.log(radius);
+    for (var i=1;i<10;i++){
+        var element=document.getElementById((dist+'D'+i));
+        element.setAttribute('r',(radius/2));
+    }
+}
+
+function startProcess(buttonValue){
+    if (buttonValue== 'Stop Recording'){
+        document.getElementById('StartButton').innerHTML = 'Start Recording Data';
+        document.getElementById('StartButton').value = 'Start Recording';
+        mt=[];
+        extraFlag=0;
+        circleIds=[1,2,3,4,5,6,7,8,9];
+        currentCircle=0;
+        dist = document.querySelector('input[name="distance"]:checked').value;
+        for (var i=1;i<10;i++){
+            var element = document.getElementById(dist+'D'+i);
+            console.log(element);
+            element.classList.remove('target');
+        }
+        document.getElementById('ExportData').style.visibility='visible';
+    }else if (buttonValue == 'Start Recording'){
+        mt=[];
+        extraFlag=0;
+        dist = document.querySelector('input[name="distance"]:checked').value;
+        console.log(dist);
+        circleIds=[1,2,3,4,5,6,7,8,9];
+        currentCircle=0;
+        document.getElementById('StartButton').innerHTML = 'Stop Recording Data';
+        document.getElementById('StartButton').value = 'Stop Recording';
+        document.getElementById('ExportData').style.visibility = 'hidden';
+        generateNextCircle();
+    }
+
+}
+
+function generateNextCircle(){
+    if (circleIds.length!=1){
+        var randomI = getRandomInt(1,9);
+        while (circleIds.indexOf(randomI) == (-1)){
+            randomI = getRandomInt(1,9);
+        }
+    }else if (circleIds.length == 1){
+        randomI=circleIds[0];
+    }else{
+        ;
+    }
+    console.log(randomI);
+    currentCircle = dist+'D'+randomI;
+    var element=document.getElementById(dist+'D'+(randomI));
+    console.log(element);
+    element.classList.add('target');
+    currentTimeStamp = Date.now();
+
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+function clickedCircle(id){
+    console.log(id);
+    if (id == currentCircle){
+        nextTimeStamp = Date.now();
+        mt.push(nextTimeStamp-currentTimeStamp);
+        var indexOfI = circleIds.indexOf(parseInt(id.substr(id.length-1)));
+        circleIds.splice(indexOfI,1);
+        console.log(circleIds);
+        var element = document.getElementById(id);
+        element.classList.remove('target');
+        if (circleIds.length != 0){
+            if (circleIds.length == 2){
+                console.log('Pre Extra item time');
+                if (extraFlag == 0){
+                    console.log('Extra item time');
+                    if (parseInt(id.substr(id.length-1)) == 0){
+                        circleIds.push(parseInt(id.substr(id.length-1))+1);
+                    } else if (parseInt(id.substr(id.length-1)) == 9){
+                        circleIds.push(parseInt(id.substr(id.length-1))-1);
+                    } else {
+                        circleIds.push(3);
+                    }
+                }
+                    extraFlag = 1;
+            }
+            generateNextCircle();
+        }else {
+            var radiusExp = document.getElementById(id).getAttribute('r');
+            for (var i=0;i<mt.length;i++){
+                if (mt[i]>2500){
+                    alert('Please start the experiment again. One or more of the movement times recorded has been irregular.');
+                    mt=[];
+                    console.log(mt);
+                    break;
+                }
+            }
+            if (mt.length != 0){
+                var mtSum=0
+                for (var i=0;i<mt.length;i++){
+                    mtSum += mt[i];
+                }
+                var avgMt = mtSum/(mt.length);
+                var ID = Math.log2((parseInt(dist)/(radiusExp*2))+1);
+                var IP = (ID/avgMt);
+                console.log("All done! The movement timings for distance of",dist," and width of ",(radiusExp*2)," are: ",avgMt,'|',ID,'|',IP);
+                var expDataTemp = [parseInt((dist)),(radiusExp*2),ID,avgMt,IP];
+                expData.push(expDataTemp);
+            }
+            document.getElementById('StartButton').innerHTML = 'Start Recording Data';
+            document.getElementById('StartButton').value = 'Start Recording';
+            document.getElementById('ExportData').style.visibility = 'visible';
+        }
+    }else{
+        console.log('clicked'+id);
+    }
+}
+
+function exportData(){
+        var csv="";
+        expData.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+        });
+
+        console.log(csv);
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'ExperimentData.csv';
+        hiddenElement.click();
+}
+</script>
