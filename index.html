@@ -1,226 +1,336 @@
 <!DOCTYPE html>
-<html>
-	<head>
-		<meta http-equiv="Content-Type" content="text/html;charset=utf-8">
-		<title>Visualising Fitts's Law</title>
-		<script type="text/javascript" src="d3/d3.v2.js"></script>
-		<script type="text/javascript" src="d3/lib/jquery/jquery.min.js"></script>
-	    <script type="text/javascript" src="d3/lib/jquery-ui/jquery-ui.min.js"></script>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HCI CS 522 - Fitt's law experiment</title>
+    <link rel='stylesheet' href="./css/css/skeleton.css"/>
+    <link rel="stylesheet" href="./css/css/normalize.css"/>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.0/jquery.min.js"></script>
+</head>
+<body>
+<div id="Header" class="nine columns customHeader">
+    <h5 class="headercontent titleSub">HCI CS 522</h5>
+    <h5 class="headercontent">FITTS' LAW EXPERIMENT</h5>
+    <h6 class="headercontent">
+        <ul id="headerList" style="list-style-type:disc">
+            <li>
+                <b>OBJECTIVE:</b><br>
+                <span>The following experiment is designed to study Fitts' law. The data obtained from the following experiment setup is further used to study specific</span>
+                <span>measures like the index of difficulty, movement time and the throughput. These will be the end result of what is observed from this experiment.</span>
+            </li>
+            <li>
+               Following are the experiment setup measures:<br>
+                <ol id="experimetsetuplist" style="list-style-type: decimal">
+                    <li>
+                        <b>Input modality:  </b> Mouse<br>
+                    </li>
+                    <li>
+                        <b>Number of target sizes: </b>2<br>
+                    </li>
+                    <li>
+                        <b>Number of distinct distances:  </b>3<br><br>
+                    </li>
+                </ol>
+            </li>
 
-		<link href='http://fonts.googleapis.com/css?family=Ovo' rel='stylesheet' type='text/css'>
-		<link href='http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700' rel='stylesheet' type='text/css'>
+        </ul>
+    </h6>
+    <h6 class="headercontent">
+        <b>
+            EXPERIMENT STEPS:
+        </b>
+        <ul id="Expsteps" style="list-style-type: disc">
+            <li>
+                Select one of the distances given. The distances are the amplitude between targets and are in pixels(px).
+            </li>
+            <li>
+                Select one of the widths given. The widths are the diameter of the circle and are in pixels(px).
+            </li>
+            <li>
+                When ready to record a set of values, click on Start Recording Data button.
+            </li>
+            <li>
+                If the experiment needs to be restarted, click on the Stop Recording Data button.
+            </li>
+            <li>
+                Once the intended experiment is done and if you wish to export the data for further analysis, click on the Export Data button.
+            </li>
+            <li>
+                <b>Note:</b> The export data button is not active during an experiment.
+            </li>
+            <li>
+                Data being recorded:
+                <ul id="DataRecordedList" style="list-style-type: disc">
+                    <li>
+                        Movement Time.
+                    </li>
+                    <li>
+                        Distance between targets.
+                    </li>
+                    <li>
+                        Width of targets.
+                    </li>
+                    <li>
+                        Throughput.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                The experiment is laid out according to the ISO 9241-9:2000 standard.
+            </li>
+        </ul>
+    </h6>
+</div>
+<div class="twelve columns settings">
+    <div id = 'experimentSettings' class="three columns settings" style="height: inherit">
+        <h5 class="headercontent titleSub">EXPERIMENT SETTING</h5>
 
-		<link type="text/css" rel="stylesheet" href="reset.css"/>
-		<link type="text/css" rel="stylesheet" href="960_12_col.css"/>
-		<link type="text/css" rel="stylesheet" href="style.css"/>
-	</head>
-	<body>
-		<!-- fork me on github -->
-		<a href="https://github.com/SimonWallner/uit-fitts-law"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_red_aa0000.png" alt="Fork me on GitHub"></a>
+        <h6 style="margin-bottom: 1.5rem;margin-left: 1.5rem">DISTANCE</h6>
+        <input type="radio" name="distance" value="120" onclick="changeDist(120);" checked>120
+        <input type="radio" name="distance" value="210" onclick="changeDist(210);">210
+        <input type="radio" name="distance" value="300" onclick="changeDist(300);">300
 
+        <h6 style="margin-bottom: 1.5rem;margin-left: 1.5rem">WIDTH</h6>
+        <input type="radio" name="targetWidth" value="40" onclick="changeRadius(40);" checked>40
+        <input type="radio" name="targetWidth" value="100" onclick="changeRadius(100);">100
 
-		<div class="container_12">
-			<h1 class="prefix_1 grid_9">An Interactive Visualisation of <strong>Fitts's Law</strong> with JavaScript and <strong>D3</strong></h1>
-			<div class="prefix_1 grid_7">
-				<p>
-					Fitts's Law is one of the cornerstones of user interface research. In 1954, Fitts described the relationship between the target distance, width, and time needed for a target acquisition task. This later became known as <strong>Fitts's law</strong> [Fitts 1954].
-				</p>
-				<p>
-					This interactive illustration of Fitts's test should serve as an introduction to Fitts' law.  It can also help the reader to visualise details not directly covered by the law and give further insights into motion in 2D target acquisition tasks.
-				</p>
-				<p class="note">
-					We recomend a modern browser and fast computer to run the interactive tests. We developed on Safari and Chrome, so support for other modern browsers is likely but not guaranteed.
-				</p>
+    </div>
 
-				<h2>Fitts's Law</h2>
-				<p>
-					For a given target acquisition task, e.g. move the mouse to a certain point in the UI of an application and select it, Fitts's law desribes how the distance from start point to the target and the width of the target influence the index of difficulty (ID) of the task.
-				</p>
-				<p>
-					The law (in the Shannon formulation [MacKenzie and Buxton 1992]) states that
-				<div class="math">
-					<img src="shannon.png" style="width: 160px" alt="Shannon Formulation of the Fitts's law" />
-				</div>
-					where <strong>A</strong> is the task's amplitude or distance, <strong>W</strong> is the target's width, and the resulting <strong>ID</strong> is the aforementioned <strong>Index of Difficulty</strong>.
-				</p>
-				<p>
-					From this formula we can see that the task gets harder, the farther away the target is and the smaller it is. This fits well with the common perception of such tasks. As it turns out, the time it takes to perform such a task is linearly correlated with its ID.
-				</p>
+    <div id="experimentArea" class="six columns settings" >
+        <svg id="120D" width="620" height="400" style="pointer-events: all; display: inline" >
+            <rect cx="0" cy="0" width="620" height="400" class="back"></rect>
+            <circle id="120D1" class="circlePattern" cx="370" cy="200" r="20" onclick="clickedCircle('120D1');"></circle>
+            <circle id="120D2" class="circlePattern" cx="355.9626665871387" cy="238.56725658119234" r="20" onclick="clickedCircle('120D2');"></circle>
+            <circle id="120D3" class="circlePattern" cx="320.41889066001585" cy="259.0884651807325" r="20" onclick="clickedCircle('120D3');"></circle>
+            <circle id="120D4" class="circlePattern" cx="280" cy="251.96152422706632" r="20" onclick="clickedCircle('120D4');"></circle>
+            <circle id="120D5" class="circlePattern" cx="253.6184427528455" cy="220.52120859954013" r="20" onclick="clickedCircle('120D5');"></circle>
+            <circle id="120D6" class="circlePattern" cx="253.6184427528455" cy="179.47879140045987" r="20" onclick="clickedCircle('120D6');"></circle>
+            <circle id="120D7" class="circlePattern" cx="280" cy="148.03847577293368" r="20" onclick="clickedCircle('120D7');"></circle>
+            <circle id="120D8" class="circlePattern" cx="320.4188906600158" cy="140.9115348192675" r="20" onclick="clickedCircle('120D8');"></circle>
+            <circle id="120D9" class="circlePattern" cx="355.96266658713864" cy="161.43274341880763" r="20" onclick="clickedCircle('120D9');"></circle>
+        </svg>
 
-				<h2>The Test</h2>
-				<p>
-					Below you can find an interactive Fitts's test. The test is laid out according to the recommendations found in [Soukoreff and Mackenzie 2004]. It should also follow the ISO standard [ISO 9241-9] which unfortunately was unavailable to us at the time of writing.
-				</p>
-				<p>
-					The test setup allows for multiple data sets to be created (e.g. to compare different input devices or parameters) and the test parameters (<strong>distance</strong> and <strong>width</strong>) can be adjusted. If parameters are set randomly, they will update after each test round, to allow for the continuous insertion of test data for different conditions.
-				</p>
-				<p>
-					Below you can see the test area. Beneath it you can find various plots that update in real time while data is entered. Data is accumulated in the live plots as long as the test parameters remain unchanged.
+        <svg id="210D" width="620" height="400" style="pointer-events: all; display: none">
+            <rect cx="0" cy="0" width="620" height="400" class="back"></rect>
+            <circle id="210D1" class="circlePattern" cx="415" cy="200" r="20" onclick="clickedCircle('210D1')"></circle>
+            <circle id="210D2" class="circlePattern" cx="390.4346665274927" cy="267.49269901708664" r="20" onclick="clickedCircle('210D2');"></circle>
+            <circle id="210D3" class="circlePattern" cx="328.2330586550277" cy="303.40481406628186" r="20" onclick="clickedCircle('210D3');"></circle>
+            <circle id="210D4" class="circlePattern" cx="257.5" cy="290.93266739736606" r="20" onclick="clickedCircle('210D4');"></circle>
+            <circle id="210D5" class="circlePattern" cx="211.33227481747963" cy="235.91211504919522" r="20" onclick="clickedCircle('210D5')"></circle>
+            <circle id="210D6" class="circlePattern" cx="211.33227481747963" cy="164.08788495080478" r="20" onclick="clickedCircle('210D6')"></circle>
+            <circle id="210D7" class="circlePattern" cx="257.49999999999994" cy="109.06733260263397" r="20" onclick="clickedCircle('210D7')"></circle>
+            <circle id="210D8" class="circlePattern" cx="328.23305865502766" cy="96.59518593371814" r="20" onclick="clickedCircle('210D8')"></circle>
+            <circle id="210D9" class="circlePattern" cx="390.43466652749265" cy="132.50730098291336" r="20" onclick="clickedCircle('210D9')"></circle>
+        </svg>
 
-				<h2>A word of Warning</h2>
-				<p>
-				This test setup is merely for educative and illustrative purposes. This is <strong>not</strong> a controlled experiment, and no definitive truths should be derived from it. It can, however, help in exploring different settings and be a usefull tool for constructing real Fitts's experiments.
-				</p>
+        <svg id="300D" width="620" height="400" style="pointer-events: all; display: none">
+            <rect cx="0" cy="0" width="620" height="400" class="back"></rect>
+            <circle id="300D1" class="circlePattern" cx="460" cy="200" r="20" onclick="clickedCircle('300D1')"></circle>
+            <circle id="300D2" class="circlePattern" cx="424.9066664678467" cy="296.4181414529809" r="20" onclick="clickedCircle('300D2')"></circle>
+            <circle id="300D3" class="circlePattern" cx="336.04722665003953" cy="347.72116295183116" r="20" onclick="clickedCircle('300D3')"></circle>
+            <circle id="300D4" class="circlePattern" cx="235.00000000000003" cy="329.9038105676658" r="20" onclick="clickedCircle('300D4')"></circle>
+            <circle id="300D5" class="circlePattern" cx="169.04610688211375" cy="251.30302149885034" r="20" onclick="clickedCircle('300D5')"></circle>
+            <circle id="300D6" class="circlePattern" cx="169.04610688211375" cy="148.69697850114972" r="20" onclick="clickedCircle('300D6')"></circle>
+            <circle id="300D7" class="circlePattern" cx="234.99999999999994" cy="70.09618943233426" r="20" onclick="clickedCircle('300D7')"></circle>
+            <circle id="300D8" class="circlePattern" cx="336.0472266500395" cy="52.27883704816878" r="20" onclick="clickedCircle('300D8')"></circle>
+            <circle id="300D9" class="circlePattern" cx="424.90666646784666" cy="103.58185854701907" r="20" onclick="clickedCircle('300D9')"></circle>
+        </svg>
+    </div>
+    <div class="two columns buttonSettings" style="margin-top: 2%">
+        <button id="StartButton" onclick="startProcess(value);" value="Start Recording" >Start Recording Data</button>
+        <br>
+        <br>
+        <button id="ExportData" onclick="exportData()">Export Recorded Data</button>
+    </div>
+</div>
 
-			</div>
-
-			<div class="clear"></div>
-
-			<div class="grid_8">
-				<div id="test-area" class="sans"></div>
-				<p class="caption">
-					fig. 1a: Test Area: Try to click the red circle as fast as possible but at the same time try to avoid errors.
-				</p>
-			</div>
-			<div class="grid_4 border sans" style="height: 378px; padding: 10px; width: 278px">
-				<p>
-					<button id="randomizeButton" type="button">Randomize!</button>
-					<input type="checkbox" id="randomizeCheckbox" checked /> randomize after round
-				</p>
-				<p>
-					Distance: <span id="sliderDistanceValue"></span>
-					<div id="sliderDistance"></div>
-				</p>
-
-				<p>
-					Width: <span id="sliderWidthValue"></span>
-					<div id="sliderWidth"></div>
-				</p>
-				<hr />
-				<p>
-					Data Sets: (click to make active)
-					<div id="dataSets"></div>
-					<button id="addDataSetButton" type="button">Add Data Set</button>
-				</p>
-			</div>
-			<div class="clear"></div>
-
-			<div class="grid_3">
-				 <div id="plot-positions" class="sans"></div>
-				<p class="caption">
-					fig. 1b: Deviation form straight path over path distance in px.
-				</p>
-			</div>
-
-			<div class="grid_3">
-				<div id="plot-velocities" class="sans"></div>
-				<p class="caption">
-					fig. 1c: Movement speed in px/ms over time in ms.
-				</p>
-			</div>
-
-			<div class="grid_3 2ndRow">
-				<div id="plot-hits" class="sans"></div>
-				<p class="caption">
-					fig. 1d: Click position relative to approach direction.
-				</p>
-			</div>
-
-			<div class="grid_3">
-				<div id="plot-scatter" class="sans"></div>
-				<p class="caption">
-					fig. 1e: Time in ms over ID.
-				</p>
-			</div>
-
-
-
-			<div class="clear"></div>
-
-			<div id="data" class="prefix_1 grid_7"></div>
-			<div class="clear"></div>
-
-			<div class="prefix_1 grid_7">
-
-
-
-
-				<h2 style="margin-top: 2em;">Evaluating the Test Data</h2>
-				<p>The plots below show different evaluations of the test data. These plots update automatically after an inactivity of 2 seconds. Figure 2 shows a scatter plot of time over effective ID. The effective Index of Difficulty (<strong>IDe</strong>) is computed as follows:
-
-				<div class="math">
-					<img src="IDe.png" alt="IDe = log2(De/We = + 1)" style="width: 160px;"/>
-				</div>
-				where <strong>De</strong> is the mean distance from start to end point and the effective width <strong>We</strong> is defined as:
-				<div class="math">
-					<img src="We.png" alt="We = 4.133 * sigma" style="width: 120px;" />
-				</div>
-				where <strong>σ</strong> is the standard deviation of the hit points on the target. We are computing <strong>σ</strong> in the target direction and perpendicular to it, and then use the 'smaller-of' heuristic (cf. [MacKenzie and Buxton 1992, Soukoreff and Mackenzie 2004]).
-				</p>
-
-				<div id="scatterEffective" class="sans"></div>
-				<p class="caption">
-					fig. 2: Time in ms over effective ID. Only parameter combinations (distance and width) with at least 3 samples are shown.
-				</p>
-
-				<div id="throughput" class="sans"></div>
-				<p class="caption">
-					fig. 3: Histogram of effective throughput. Individual histograms for each data set are scaled to their respective maximum frequency.
-				</p>
-
-
-				<p>
-					Figure 3 shows a histogram of the throughput for each dataset. Throughput is computed as <strong>IDe/movement time</strong> and therefore has the unit <strong>bits/second</strong>. Throughput and its distribution can be one of the indicators of a device's performance. To make an encompassing assessment further metrics have to be used (e.g. error rate, and overall user comfort and user satisfaction).
-				</p>
-
-
-				<h2>Analysing Movement Path and Speed</h2>
-				</div>
-
-				<div class="grid_7 prefix_1">
-					<div id="positionEffective" class="sans"></div>
-					<p class="caption">
-						fig. 4: Deviation form straight path over path distance in px.
-					</p>
-
-					<div id="speedEffective" class="sans"></div>
-					<p class="caption">
-						fig. 5: Movement speed in px/ms over time in ms.
-					</p>
-				</div>
-
-				<div class="prefix_1 grid_7">
-					<p>
-						These two figures illustrate the mouse's movement path and speed during the test. In Figure 4 All data is anchored in the start position of each trial. The positional movement data is projected onto the target vector, to make comparisons over all approach directions easy.
-					</p>
-					<p>
-						Figure 5 finally shows the movement speed in pixel per ms over the movement time. Analysing the user's movements beyond Fitts's law can yield additional insights into different qualities of various input devices. For the sake of completeness and contrast we would like to refer to [Bootsma et al. 2004].
-					</p>
-
-				<h2>References</h2>
-				<p>
-					<strong>Fitts, P. M. (1954)</strong>. The information capacity of the human motor system in controlling the amplitude of movement. Journal of Experimental Psychology, 47(6), 381-391. doi:10.1037/h0055392
-				</p>
-				<p>
-					<strong>MacKenzie, I. S., & Buxton, W. (1992)</strong>. Extending Fitts's law to two-dimensional tasks. Proceedings of the SIGCHI conference on Human factors in computing systems CHI 92, p, 219-226. ACM Press. doi:10.1145/142750.142794
-				</p>
-				<p>
-					<strong>ISO. (2000)</strong>. Ergonomic requirements for office work with visual display terminals (VDTs) - Requirements for non-keyboard input devices. ISO 92419. International Organization of Standardization.
-				</p>
-				<p>
-					<strong>Soukoreff, R., & Mackenzie, I. (2004)</strong>. Towards a standard for pointing device evaluation, perspectives on 27 years of Fitts's law research in HCI. International Journal of Human-Computer Studies, 61(6), 751-789. Elsevier. doi:10.1016/j.ijhcs.2004.09.001
-				</p>
-				<p>
-					<strong>Bootsma, R. J., Fernandez, L., & Mottet, D. (2004)</strong>. Behind Fitts's law: kinematic patterns in goal-directed movements. International Journal of Human-Computer Studies, 61(6), 811-821. doi:10.1016/j.ijhcs.2004.09.004
-					</p>
-
-				<h2>Feedback</h2>
-				<p>
-					There is quite some room for improvement and we'd love to hear your feedback and comments. You can address them to Simon via <a href="mailto:me@simonwallner.at">email</a>.
-				</p>
-
-				<h2>Acknowledgements</h2>
-				<p>
-					This interactive experiment was created as part of an assignment for the <strong>User Interface Technologies</strong> course at the <strong>University of Copenhagen</strong> in spring 2012. Group Members: Simon Wallner, Otilia Danet, Trine Eilersen, and Jesper Tved.
-				</p>
-				<h2>License</h2>
-				<p>
-					This project is licensed under the permissive <strong>MIT license</strong>, The full source is available on <a href="https://github.com/SimonWallner/uit-fitts-law">GitHub</a>
-				</p>
-			</div>
-
-			<script type="text/javascript" src="fitts-law.js"></script>
-
-		</div> <!-- container12 end -->
-	</body>
+</body>
 </html>
+
+<script>
+    var currentCircle = 0;
+    var circleIds = [1,2,3,4,5,6,7,8,9];
+    var dist = 0;
+    var mt = [];
+    var currentTimeStamp;
+    var nextTimeStamp;
+    var extraFlag = 0;
+    var expData = [['A','W','ID','MT','IP']];
+function changeRadius(radius){
+    console.log(radius);
+    console.log(document.querySelector('input[name="distance"]:checked').value);
+    var dist = document.querySelector('input[name="distance"]:checked').value;
+    var otherDist = [120,210,300];
+    for (var j=0;j<otherDist.length;j++){
+        var element=document.getElementById(otherDist[j]+'D');
+        if ((dist + 'D') == (otherDist[j] + 'D')) {
+            element.style.display = 'inline';
+        } else {
+            element.style.display = 'none';
+        }
+        console.log('Done hiding');
+    }
+    for (var i=1;i<10;i++){
+        var element=document.getElementById((dist+'D'+i));
+        element.setAttribute('r',(radius/2));
+    }
+}
+
+
+function changeDist(dist){
+    console.log(dist);
+    /*
+     Hide everything except the selected distance.
+     */
+    var otherDist = [120,210,300];
+    for (var j=0;j<otherDist.length;j++){
+        var element=document.getElementById(otherDist[j]+'D');
+        if ((dist + 'D') == (otherDist[j] + 'D')) {
+            element.style.display = 'inline';
+        } else {
+            element.style.display = 'none';
+        }
+        console.log('Done hiding');
+    }
+
+    /*
+        Check for radius value and change accordingly.
+    */
+    var radius = document.querySelector('input[name="targetWidth"]:checked').value;
+    console.log(radius);
+    for (var i=1;i<10;i++){
+        var element=document.getElementById((dist+'D'+i));
+        element.setAttribute('r',(radius/2));
+    }
+}
+
+function startProcess(buttonValue){
+    if (buttonValue== 'Stop Recording'){
+        document.getElementById('StartButton').innerHTML = 'Start Recording Data';
+        document.getElementById('StartButton').value = 'Start Recording';
+        mt=[];
+        extraFlag=0;
+        circleIds=[1,2,3,4,5,6,7,8,9];
+        currentCircle=0;
+        dist = document.querySelector('input[name="distance"]:checked').value;
+        for (var i=1;i<10;i++){
+            var element = document.getElementById(dist+'D'+i);
+            console.log(element);
+            element.classList.remove('target');
+        }
+        document.getElementById('ExportData').style.visibility='visible';
+    }else if (buttonValue == 'Start Recording'){
+        mt=[];
+        extraFlag=0;
+        dist = document.querySelector('input[name="distance"]:checked').value;
+        console.log(dist);
+        circleIds=[1,2,3,4,5,6,7,8,9];
+        currentCircle=0;
+        document.getElementById('StartButton').innerHTML = 'Stop Recording Data';
+        document.getElementById('StartButton').value = 'Stop Recording';
+        document.getElementById('ExportData').style.visibility = 'hidden';
+        generateNextCircle();
+    }
+
+}
+
+function generateNextCircle(){
+    if (circleIds.length!=1){
+        var randomI = getRandomInt(1,9);
+        while (circleIds.indexOf(randomI) == (-1)){
+            randomI = getRandomInt(1,9);
+        }
+    }else if (circleIds.length == 1){
+        randomI=circleIds[0];
+    }else{
+        ;
+    }
+    console.log(randomI);
+    currentCircle = dist+'D'+randomI;
+    var element=document.getElementById(dist+'D'+(randomI));
+    console.log(element);
+    element.classList.add('target');
+    currentTimeStamp = Date.now();
+
+}
+
+function getRandomInt(min, max) {
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min)) + min;
+}
+
+
+function clickedCircle(id){
+    console.log(id);
+    if (id == currentCircle){
+        nextTimeStamp = Date.now();
+        mt.push(nextTimeStamp-currentTimeStamp);
+        var indexOfI = circleIds.indexOf(parseInt(id.substr(id.length-1)));
+        circleIds.splice(indexOfI,1);
+        console.log(circleIds);
+        var element = document.getElementById(id);
+        element.classList.remove('target');
+        if (circleIds.length != 0){
+            if (circleIds.length == 2){
+                console.log('Pre Extra item time');
+                if (extraFlag == 0){
+                    console.log('Extra item time');
+                    if (parseInt(id.substr(id.length-1)) == 0){
+                        circleIds.push(parseInt(id.substr(id.length-1))+1);
+                    } else if (parseInt(id.substr(id.length-1)) == 9){
+                        circleIds.push(parseInt(id.substr(id.length-1))-1);
+                    } else {
+                        circleIds.push(3);
+                    }
+                }
+                    extraFlag = 1;
+            }
+            generateNextCircle();
+        }else {
+            var radiusExp = document.getElementById(id).getAttribute('r');
+            for (var i=0;i<mt.length;i++){
+                if (mt[i]>2500){
+                    alert('Please start the experiment again. One or more of the movement times recorded has been irregular.');
+                    mt=[];
+                    console.log(mt);
+                    break;
+                }
+            }
+            if (mt.length != 0){
+                var mtSum=0
+                for (var i=0;i<mt.length;i++){
+                    mtSum += mt[i];
+                }
+                var avgMt = mtSum/(mt.length);
+                var ID = Math.log2((parseInt(dist)/(radiusExp*2))+1);
+                var IP = (ID/avgMt);
+                console.log("All done! The movement timings for distance of",dist," and width of ",(radiusExp*2)," are: ",avgMt,'|',ID,'|',IP);
+                var expDataTemp = [parseInt((dist)),(radiusExp*2),ID,avgMt,IP];
+                expData.push(expDataTemp);
+            }
+            document.getElementById('StartButton').innerHTML = 'Start Recording Data';
+            document.getElementById('StartButton').value = 'Start Recording';
+            document.getElementById('ExportData').style.visibility = 'visible';
+        }
+    }else{
+        console.log('clicked'+id);
+    }
+}
+
+function exportData(){
+        var csv="";
+        expData.forEach(function(row) {
+            csv += row.join(',');
+            csv += "\n";
+        });
+
+        console.log(csv);
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+        hiddenElement.target = '_blank';
+        hiddenElement.download = 'ExperimentData.csv';
+        hiddenElement.click();
+}
+</script>
