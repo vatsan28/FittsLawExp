@@ -156,6 +156,7 @@ function clickedCircle(id){
                     mtSum += mt[i];
                 }
                 var avgMt = mtSum/(mt.length);
+                avgMt = avgMt/1000;
                 var ID = Math.log2((parseInt(dist)/(radiusExp*2))+1);
                 var IP = (ID/avgMt);
                 console.log("All done! The movement timings for distance of",dist," and width of ",(radiusExp*2)," are: ",avgMt,'|',ID,'|',IP);
